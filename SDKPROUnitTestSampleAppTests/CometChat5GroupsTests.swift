@@ -38,14 +38,14 @@ class CometChat5GroupsTests: XCTestCase {
         CometChat.getGroup(GUID: TestConstants.grpPublic2, onSuccess: { (group) in
             
             print("group info : \(String(describing: group.stringValue()))")
-            
-            XCTAssertFalse(group.hasJoined)
-            
-            expectation.fulfill()
-            
+        
         }) { (error) in
             
             print("error in fetching group information : \(String(describing: error?.errorDescription))")
+            
+            XCTAssertNotNil(error)
+            
+            expectation.fulfill()
         }
         
         waitForExpectations(timeout: 5, handler: nil)
@@ -79,13 +79,13 @@ class CometChat5GroupsTests: XCTestCase {
             
             print("group info : \(String(describing: group.stringValue()))")
             
-            XCTAssertFalse(group.hasJoined)
-            
-            expectation.fulfill()
-            
         }) { (error) in
             
             print("error in fetching group information : \(String(describing: error?.errorDescription))")
+            
+            XCTAssertNotNil(error)
+            
+            expectation.fulfill()
         }
         
         waitForExpectations(timeout: 10, handler: nil)
