@@ -105,8 +105,11 @@ class CometChat4MessagesTests: XCTestCase {
     func testSendMediaMessagesWithEmptyReceiverId() {
         
         let expectation = self.expectation(description: "Send a media message with empty Receiver Id")
+        let path = Bundle.main.path(forResource: "file", ofType: "jpg")
         
-        let _mediaMessage = MediaMessage(receiverUid: "", fileurl: "file:///Users/inscripts11/Library/Developer/CoreSimulator/Devices/632CBE79-CE19-48E8-BB75-97B40765D25F/data/Containers/Data/Application/94C63396-7632-451B-A2ED-0A9BB0C93DCE/Documents/B79142BE-79D3-4546-9D39-F6FAF50EBD88.jpeg", messageType: .image, receiverType: .user)
+        XCTAssertNotNil(path)
+        
+        let _mediaMessage = MediaMessage(receiverUid: "", fileurl: path!, messageType: .image, receiverType: .user)
         
         CometChat.sendMediaMessage(message: _mediaMessage, onSuccess: { (textMessage) in
             
@@ -127,8 +130,11 @@ class CometChat4MessagesTests: XCTestCase {
     func testSendMediaMessagesWithValidReceiverIdAndMediaURL() {
         
         let expectation = self.expectation(description: "Send a media message with valid Receiver Id")
+        let path = Bundle.main.path(forResource: "file", ofType: "jpg")
         
-        let _mediaMessage = MediaMessage(receiverUid: TestConstants.user2, fileurl: "file:///Users/inscripts11/Library/Developer/CoreSimulator/Devices/632CBE79-CE19-48E8-BB75-97B40765D25F/data/Containers/Data/Application/94C63396-7632-451B-A2ED-0A9BB0C93DCE/Documents/B79142BE-79D3-4546-9D39-F6FAF50EBD88.jpeg", messageType: .image, receiverType: .user)
+        XCTAssertNotNil(path)
+        
+        let _mediaMessage = MediaMessage(receiverUid: TestConstants.user2, fileurl: path!, messageType: .image, receiverType: .user)
         _mediaMessage.metaData = ["metaKey" : "metaData"]
         
         CometChat.sendMediaMessage(message: _mediaMessage, onSuccess: { (mediaMessage) in
@@ -221,17 +227,17 @@ class CometChat4MessagesTests: XCTestCase {
         
         let _customMessage = CustomMessage(receiverUid: TestConstants.user2, receiverType: .user, customData : ["customKey": "customData"])
         
-        CometChat.sendCustomMessage(message: _customMessage, onSuccess: { (textMessage) in
+        CometChat.sendCustomMessage(message: _customMessage, onSuccess: { (customMessage) in
             
             print("sending custom message successfully..")
+            
+            XCTAssertNotNil(customMessage)
+            
+            expectation.fulfill()
             
         }) { (error) in
             
             print("error in sending custom message..\(String(describing: error?.errorDescription))")
-            
-            XCTAssertNotNil(error)
-
-            expectation.fulfill()
         }
         
         waitForExpectations(timeout: 10, handler: nil)
@@ -308,7 +314,7 @@ class CometChat4MessagesTests: XCTestCase {
         
         let expectation = self.expectation(description: "Send a text message to group with valid Receiver Id")
         
-        let _textMessage = TextMessage(receiverUid: "", text: "this is normal text", messageType: .text, receiverType: .group)
+        let _textMessage = TextMessage(receiverUid: TestConstants.grpPublic1, text: "this is normal text", messageType: .text, receiverType: .group)
         _textMessage.metaData = ["metaKey" : "metaData"]
         
         CometChat.sendTextMessage(message: _textMessage, onSuccess: { (textMessage) in
@@ -491,17 +497,17 @@ class CometChat4MessagesTests: XCTestCase {
         
         let _customMessage = CustomMessage(receiverUid: TestConstants.grpPublic1, receiverType: .group, customData : ["customKey": "customData"])
         
-        CometChat.sendCustomMessage(message: _customMessage, onSuccess: { (textMessage) in
+        CometChat.sendCustomMessage(message: _customMessage, onSuccess: { (customMessage) in
             
             print("sending custom message to group successfully..")
+            
+            XCTAssertNotNil(customMessage)
+            
+            expectation.fulfill()
             
         }) { (error) in
             
             print("error in sending custom message to group..\(String(describing: error?.errorDescription))")
-            
-            XCTAssertNotNil(error)
-
-            expectation.fulfill()
         }
         
         waitForExpectations(timeout: 10, handler: nil)

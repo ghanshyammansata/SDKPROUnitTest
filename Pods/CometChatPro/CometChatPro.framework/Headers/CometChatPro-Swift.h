@@ -773,9 +773,8 @@ SWIFT_CLASS("_TtC12CometChatPro12UsersRequest")
 SWIFT_CLASS("_TtCC12CometChatPro12UsersRequest19UsersRequestBuilder")
 @interface UsersRequestBuilder : NSObject
 - (nonnull instancetype)initWithLimit:(NSInteger)limit OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 - (UsersRequest * _Nonnull)build SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_DEPRECATED_MSG("-init is unavailable");
 @end
 
 #if __has_attribute(external_source_symbol)

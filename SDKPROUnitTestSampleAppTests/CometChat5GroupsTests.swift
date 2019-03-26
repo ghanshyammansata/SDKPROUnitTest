@@ -99,13 +99,13 @@ class CometChat5GroupsTests: XCTestCase {
             
             print("group info : \(String(describing: group.stringValue()))")
             
-            XCTAssertTrue(group.hasJoined)
-            
-            expectation.fulfill()
-            
         }) { (error) in
             
             print("error in fetching group information : \(String(describing: error?.errorDescription))")
+            
+            XCTAssertNotNil(error)
+            
+            expectation.fulfill()
         }
         
         waitForExpectations(timeout: 10, handler: nil)
@@ -115,7 +115,7 @@ class CometChat5GroupsTests: XCTestCase {
         
         let expectation = self.expectation(description: "Get Unjoined Private Group Info")
         
-        CometChat.getGroup(GUID: TestConstants.grpPrivate4, onSuccess: { (group) in
+        CometChat.getGroup(GUID: TestConstants.grpPrivate3, onSuccess: { (group) in
             
             print("group info : \(String(describing: group.stringValue()))")
             
@@ -234,7 +234,7 @@ class CometChat5GroupsTests: XCTestCase {
             
             expectation.fulfill()
             
-            CometChat.leaveGroup(GUID: TestConstants.grpPublic2, onSuccess: { (isSuccess) in
+            CometChat.leaveGroup(GUID: TestConstants.grpPwd6, onSuccess: { (isSuccess) in
                 
             }, onError: { (error) in
                 
@@ -303,6 +303,15 @@ class CometChat5GroupsTests: XCTestCase {
             
             expectation.fulfill()
             
+            CometChat.deleteGroup(GUID: newGroup.guid, onSuccess: { (success) in
+                
+                print("group \(newGroup.guid) deleted successfully.")
+                
+            }, onError: { (error) in
+                
+                print("error in deleting the group \(newGroup.guid) : \(error?.errorDescription)")
+            })
+            
         }) { (error) in
             
             print("error in creating public group : \(String(describing: error?.errorDescription))")
@@ -324,6 +333,15 @@ class CometChat5GroupsTests: XCTestCase {
             XCTAssertTrue(newGroup.hasJoined)
             
             expectation.fulfill()
+            
+            CometChat.deleteGroup(GUID: newGroup.guid, onSuccess: { (success) in
+                
+                print("group \(newGroup.guid) deleted successfully.")
+                
+            }, onError: { (error) in
+                
+                print("error in deleting the group \(newGroup.guid) : \(error?.errorDescription)")
+            })
             
         }) { (error) in
             
@@ -436,7 +454,7 @@ class CometChat5GroupsTests: XCTestCase {
         
         let expectation = self.expectation(description: "Update existing group with valid user scope")
         
-        let newGroup = Group(guid: TestConstants.grpPwd5, name: "test group created", groupType: .public, password: nil)
+        let newGroup = Group(guid: TestConstants.grpPwd5, name: "Pwd Group iOS 5", groupType: .password, password: "pwd123")
         
         CometChat.updateGroup(group: newGroup, onSuccess: { (group) in
             
